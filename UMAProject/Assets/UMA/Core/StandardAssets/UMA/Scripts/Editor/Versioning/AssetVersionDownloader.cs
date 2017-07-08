@@ -19,12 +19,12 @@ namespace kode80.Versioning
 		private WebClient _webClient;
 		private List<AssetVersion> _queue;
 		private AssetVersion _currentLocalVersion;
-		private List<Action> _mainThreadDelegates;
+		private List<System.Action> _mainThreadDelegates;
 
 		public AssetVersionDownloader()
 		{
 			_queue = new List<AssetVersion>();
-			_mainThreadDelegates = new List<Action>();
+			_mainThreadDelegates = new List<System.Action>();
 			EditorApplication.update += MainThreadUpdate;
             ServicePointManager.ServerCertificateValidationCallback += HandleServerCertificateValidation;
         }
@@ -62,7 +62,7 @@ namespace kode80.Versioning
 		{
 			if( _mainThreadDelegates.Count > 0)
 			{
-				Action action = _mainThreadDelegates[0];
+				System.Action action = _mainThreadDelegates[0];
 				_mainThreadDelegates.RemoveAt( 0);
 				action.Invoke();
 			}
@@ -117,7 +117,7 @@ namespace kode80.Versioning
 		private void HandleFinishedDownload( AssetVersion remote)
 		{
 			if( remoteVersionDownloadFinished != null) {
-				_mainThreadDelegates.Add( new Action( () => {
+				_mainThreadDelegates.Add( new System.Action( () => {
 					remoteVersionDownloadFinished( _currentLocalVersion, remote);
 
 					_currentLocalVersion = null;
@@ -130,7 +130,7 @@ namespace kode80.Versioning
 		private void HandleFailedDownload()
 		{
 			if( remoteVersionDownloadFailed != null) {
-				_mainThreadDelegates.Add( new Action( () => {
+				_mainThreadDelegates.Add( new System.Action( () => {
 					remoteVersionDownloadFailed( _currentLocalVersion);
 
 					_currentLocalVersion = null;

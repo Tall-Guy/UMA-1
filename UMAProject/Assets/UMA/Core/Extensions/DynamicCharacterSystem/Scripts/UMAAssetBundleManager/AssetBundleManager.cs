@@ -41,7 +41,7 @@ namespace UMAAssetBundleManager
 		//to enable a json index we need to have a string/data field here
 		public string m_data;
 
-		internal event Action unload;
+		internal event System.Action unload;
 
 		internal void OnUnload()
 		{
